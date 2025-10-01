@@ -29,7 +29,7 @@ class API:
     def modifySelectedCarrera(self, obj):
         dbCursor = self.__db.cursor()
         sql = "UPDATE carreras SET Titulo = %s, Duracion = %s, Rama = %s, Campus = %s WHERE idCarrera = %s"
-        values = (obj.id)
+        values = (obj.Titulo, obj.Duracion, obj.Rama, obj.Campus, obj.ID)
         dbCursor.execute(sql, values)
         self.__db.commit()
         dbCursor.close()
@@ -38,13 +38,22 @@ class API:
     
     def insertCarrera(self, obj):
         dbCursor = self.__db.cursor()
-        sql = "UPDATE carreras SET Titulo = %s, Duracion = %s, Rama = %s, Campus = %s WHERE idCarrera = %s"
-        values = (obj.id)
+        sql = "INSERT INTO carreras SET (Titulo, Duracion, Rama, Campus) VALUES (%s, %s, %s, %s"
+        values = (obj.Titulo, obj.Duracion, obj.Rama, obj.Campus)
         dbCursor.execute(sql, values)
         self.__db.commit()
         dbCursor.close()
         return self.checkRows(dbCursor.rowcount())
-        
+    
+    def deleteCarrera(self, id):
+        dbCursor = self.__db.cursor()
+        sql = "DELETE * FROM carreras WHERE idCarrera = %s"
+        values = (id)
+        dbCursor.execute(sql, values)
+        self.__db.commit()
+        dbCursor.close()
+        return self.checkRows(dbCursor.rowcount())
+
     def checkRows(self, count):
         if count > 0:
             return True
