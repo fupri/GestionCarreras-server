@@ -1,9 +1,15 @@
 from carreras import Carrera
 from gestioncarreras import GestionCarrera
 
-def menu():
+def login():
+    print("Bienvenido al gestor de carreras universitarias")
+    user = input("Usuario: ")
+    password = input("Contraseña: ")
+    menu(user, password)
+
+def menu(user, password):
     carrera = Carrera()
-    gestor = GestionCarrera("root", "123456")
+    gestor = GestionCarrera(user, password)
 
     while True:
         print("""\nMenú Principal
