@@ -37,4 +37,4 @@ class Carrera:
         return self.__id
 
     def __str__(self):
-        return self.__titulo
+        return f"{self.__titulo}, duración: {self.__duracion} años, rama: {self.__rama}, campus: {self.__campus}"

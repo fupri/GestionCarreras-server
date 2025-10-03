@@ -9,7 +9,6 @@ class API:
         sql = "SELECT * FROM carreras"
         dbCursor.execute(sql)
         returnObj = dbCursor.fetchall()
-        print(returnObj)
         dbCursor.close()
         return returnObj
 
@@ -25,12 +24,12 @@ class API:
     def modifySelectedCarrera(self, carrera: Carrera):
         dbCursor = self.__db.cursor()
         sql = "UPDATE carreras SET Titulo = %s, Duracion = %s, Rama = %s, Campus = %s WHERE idCarrera = %s"
-        values = (carrera.getTitulo(), carrera.Duracion, carrera.Rama, carrera.Campus, carrera.ID)
+        values = (carrera.getTitulo(), carrera.getDuracion(), carrera.getRama(), carrera.getCampus(), carrera.getId())
         dbCursor.execute(sql, values)
         self.__db.commit()
         dbCursor.close()
 
-        return self.checkRows(dbCursor.rowcount())
+        return self.checkRows(dbCursor.rowcount)
     
     def insertCarrera(self, carrera: Carrera):
         dbCursor = self.__db.cursor()
@@ -43,12 +42,12 @@ class API:
     
     def deleteCarrera(self, carrera):
         dbCursor = self.__db.cursor()
-        sql = "DELETE * FROM carreras WHERE idCarrera = %s"
+        sql = "DELETE FROM carreras WHERE idCarrera = %s"
         values = (carrera.getId(),)
         dbCursor.execute(sql, values)
         self.__db.commit()
         dbCursor.close()
-        return self.checkRows(dbCursor.rowcount())
+        return self.checkRows(dbCursor.rowcount)
 
     def checkRows(self, count):
         if count > 0:

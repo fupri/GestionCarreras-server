@@ -29,32 +29,54 @@ def menu():
             indiceC = 1
             if carreras:
                 for grados in carreras:
-                    print(f"{indiceC}. {grados}")
+                    print(f"{indiceC}. {grados.getTitulo()}")
                     indiceC += 1
 
                 selectedCarrera = carreras[int(input("Introduce el índice de la carrera a visualizar: ")) - 1]
-                informacion = gestor.seleccionaCarrera(selectedCarrera[0])
-                if informacion:
-                    for datos in informacion:
-                        print(datos)
-                    else:
-                        print("Está vacío")
+                if selectedCarrera:
+                    print (selectedCarrera)
+                else:
+                    print("Está vacío")
             else:
                 print("No hay carreras en la base de datos")
 
         elif opcion == 3:
-            print(carrera.getGestionCarrera().getCarreras())
-            id_a_modificar = int(input("Introduce el ID de la carrera que quieres modificar: "))
-            nuevoTitulo = input("¿Cómo se llamará a partir de ahora? ")
-            nuevaDuracion = int(input("¿Cuanto durará? "))
-            nuevaRama = input("¿A que rama pertenecerá? ")
-            nuevoCampus = input("¿Dónde se impartirá? ")
-            carrera = Carrera(nuevoTitulo, nuevaDuracion, nuevaRama, nuevoCampus)
-            carrera.getGestionCarrera().modificaInformacion(id_a_modificar, carrera)
+            carreras = gestor.seleccionaTodas()
+            indiceC = 1
+            if carreras:
+                for grados in carreras:
+                    print(f"{indiceC}. {grados.getTitulo()}")
+                    indiceC += 1
+
+                selectedCarrera = carreras[int(input("Introduce el índice de la carrera a modificar: ")) - 1]
+                if selectedCarrera:
+                    print (selectedCarrera)
+                    selectedCarrera.setTitulo(input("¿Cómo se llamará a partir de ahora? "))
+                    selectedCarrera.setDuracion(int(input("¿Cuanto durará? ")))
+                    selectedCarrera.setRama(input("¿A que rama pertenecerá? "))
+                    selectedCarrera.setCampus(input("¿Dónde se impartirá? "))
+                    gestor.modificaCarrera(selectedCarrera)
+                else:
+                    print("Está vacío")
+            else:
+                print("No hay carreras en la base de datos")
 
         elif opcion == 4:
-            gestor.eliminaCarrera(int(input("Introduce el identificador de la carrera a eliminar: ")))
+            carreras = gestor.seleccionaTodas()
+            indiceC = 1
+            if carreras:
+                for grados in carreras:
+                    print(f"{indiceC}. {grados.getTitulo()}")
+                    indiceC += 1
 
+                selectedCarrera = carreras[int(input("Introduce el índice de la carrera a eliminar: ")) - 1]
+                if selectedCarrera:
+                    print (selectedCarrera)
+                    gestor.eliminaCarrera(selectedCarrera)
+                else:
+                    print("Está vacío")
+            else:
+                print("No hay carreras en la base de datos")
         elif opcion == 5:
             print("Saliendo del programa...")
             break
