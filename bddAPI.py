@@ -1,6 +1,4 @@
-import mysql.connector
 from carreras import Carrera
-from bddconnection import DBConnection
 
 class API:
     def __init__(self, connector):

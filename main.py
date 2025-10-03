@@ -25,16 +25,17 @@ def menu():
             gestor.añadeCarrera(carrera)
 
         elif opcion == 2:
-            carreras = carrera.getGestionCarrera().getResumen()
+            carreras = gestor.seleccionaTodas()
+            indiceC = 1
             if carreras:
                 for grados in carreras:
-                    print(grados)
+                    print(f"{indiceC}. {grados}")
+                    indiceC += 1
 
-
-                    informacion = carrera.getGestionCarrera().recibeInformacion(id_carrera)
-                    if informacion:
-                        for dato in informacion:
-                            print(informacion)
+                informacion = gestor.seleccionaCarrera(int(input("Introduce el índice de la carrera a visualizar: ")))
+                if informacion:
+                    for datos in informacion:
+                        print(datos)
                     else:
                         print("Está vacío")
             else:
@@ -51,8 +52,10 @@ def menu():
             carrera.getGestionCarrera().modificaInformacion(id_a_modificar, carrera)
 
         elif opcion == 4:
-            id_a_borrar
-            carrera.getGestionCarrera().borraDatos(id_a_borrar)
+            gestor.eliminaCarrera(int(input("Introduce el identificador de la carrera a eliminar: ")))
+
+        elif opcion == 5:
+
 
 if __name__ == "__main__":
     menu()
