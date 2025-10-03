@@ -3,7 +3,7 @@ from gestioncarreras import GestionCarrera
 
 def menu():
     carrera = Carrera()
-    gestor = GestionCarrera()
+    gestor = GestionCarrera("root", "123456")
 
     while True:
         print("""\nMenú Principal
@@ -32,7 +32,8 @@ def menu():
                     print(f"{indiceC}. {grados}")
                     indiceC += 1
 
-                informacion = gestor.seleccionaCarrera(int(input("Introduce el índice de la carrera a visualizar: ")))
+                selectedCarrera = carreras[int(input("Introduce el índice de la carrera a visualizar: ")) - 1]
+                informacion = gestor.seleccionaCarrera(selectedCarrera[0])
                 if informacion:
                     for datos in informacion:
                         print(datos)
@@ -55,7 +56,8 @@ def menu():
             gestor.eliminaCarrera(int(input("Introduce el identificador de la carrera a eliminar: ")))
 
         elif opcion == 5:
-
+            print("Saliendo del programa...")
+            break
 
 if __name__ == "__main__":
     menu()

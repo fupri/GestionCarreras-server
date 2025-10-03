@@ -9,13 +9,14 @@ class API:
         sql = "SELECT * FROM carreras"
         dbCursor.execute(sql)
         returnObj = dbCursor.fetchall()
+        print(returnObj)
         dbCursor.close()
         return returnObj
 
-    def selectCarreraByID(self, carrera: Carrera):
+    def selectCarreraByID(self, id):
         dbCursor = self.__db.cursor()
         sql = "SELECT * FROM carreras c WHERE c.idCarrera = %s"
-        values = carrera.getId()
+        values = (id,)
         dbCursor.execute(sql, values)
         returnObj = dbCursor.fetchall()
         dbCursor.close()
