@@ -2,19 +2,19 @@ from bddAPI import API
 
 class GestionCarrera:
     def __init__(self):
-        pass
+        self.__API = API()
 
     def añadeCarrera(self, carrera):
-        API.insertCarrera(carrera)
+        self.__API.insertCarrera(carrera)
 
     def eliminaCarrera(self, idCarrera):
-        API.deleteCarrera(idCarrera)
+        self.__API.deleteCarrera(idCarrera)
 
     def modificaCarrera(self, carrera):
-        API.modifySelectedCarrera(carrera)
+        self.__API.modifySelectedCarrera(carrera)
 
     def seleccionaCarrera(self, carrera):
-        API.selectCarreraByTitulo(carrera)
+        self.__API.selectCarreraByTitulo(carrera)
 
     def seleccionaTodas(self):
-        API.selectAllCarreras()
+        self.__API.selectAllCarreras()

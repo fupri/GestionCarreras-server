@@ -1,6 +1,5 @@
 from carreras import Carrera
 from gestioncarreras import GestionCarrera
-from bddAPI import API
 
 def menu():
     carrera = Carrera()
