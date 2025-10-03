@@ -1,8 +1,10 @@
 from bddAPI import API
+from bddconnection import DBConnection
 
 class GestionCarrera:
-    def __init__(self):
-        self.__API = API()
+    def __init__(self, user, password):
+        self.__dbconnector = DBConnection(user, password)
+        self.__API = API(self.__dbconnector)
 
     def añadeCarrera(self, carrera):
         self.__API.insertCarrera(carrera)

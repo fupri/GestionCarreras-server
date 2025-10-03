@@ -1,14 +1,10 @@
 import mysql.connector
 from carreras import Carrera
+from bddconnection import DBConnection
 
 class API:
-    def __init__(self):
-        self.__db = mysql.connector.connect(
-            host="localhost",
-            user="root",
-            password="123456",
-            database="gestion_de_carreras"
-        )
+    def __init__(self, connector):
+        self.__db = connector
 
     def selectAllCarreras(self):
         dbCursor = self.__db.cursor()
