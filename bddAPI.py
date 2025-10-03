@@ -18,19 +18,19 @@ class API:
         dbCursor.close()
         return returnObj
 
-    def selectCarreraByID(self, obj):
+    def selectCarreraByID(self, carrera: Carrera):
         dbCursor = self.__db.cursor()
         sql = "SELECT * FROM carreras c WHERE c.idCarrera = %s"
-        values = obj.ID
+        values = carrera.getId()
         dbCursor.execute(sql, values)
         returnObj = dbCursor.fetchall()
         dbCursor.close()
         return returnObj
     
-    def modifySelectedCarrera(self, obj):
+    def modifySelectedCarrera(self, carrera: Carrera):
         dbCursor = self.__db.cursor()
         sql = "UPDATE carreras SET Titulo = %s, Duracion = %s, Rama = %s, Campus = %s WHERE idCarrera = %s"
-        values = (obj.Titulo, obj.Duracion, obj.Rama, obj.Campus, obj.ID)
+        values = (carrera.getTitulo(), carrera.Duracion, carrera.Rama, carrera.Campus, carrera.ID)
         dbCursor.execute(sql, values)
         self.__db.commit()
         dbCursor.close()
@@ -46,10 +46,10 @@ class API:
         dbCursor.close()
         return self.checkRows(dbCursor.rowcount)
     
-    def deleteCarrera(self, id):
+    def deleteCarrera(self, carrera):
         dbCursor = self.__db.cursor()
         sql = "DELETE * FROM carreras WHERE idCarrera = %s"
-        values = (id,)
+        values = (carrera.getId(),)
         dbCursor.execute(sql, values)
         self.__db.commit()
         dbCursor.close()

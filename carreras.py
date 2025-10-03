@@ -1,5 +1,6 @@
 class Carrera:
     def __init__(self, titulo="", duracion=0, rama="", campus=""):
+        self.__id = 0
         self.__titulo = titulo
         self.__duracion = duracion
         self.__rama = rama
@@ -29,5 +30,11 @@ class Carrera:
     def getCampus(self):
         return self.__campus
     
+    def setId(self, id):
+        self.__id = id
+
+    def getId(self):
+        return self.__id
+
     def __str__(self):
         return self.__titulo
