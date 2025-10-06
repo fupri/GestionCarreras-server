@@ -47,10 +47,11 @@ class CarrerasDAO:
         sql = "UPDATE carreras SET Titulo = %s, Duracion = %s, Rama = %s, Campus = %s WHERE idCarrera = %s"
         values = (carrera.getTitulo(), carrera.getDuracion(), carrera.getRama(), carrera.getCampus(), carrera.getId())
         dbCursor.execute(sql, values)
+
         self.__db.commit()
         dbCursor.close()
 
-        return self.checkRows(dbCursor.rowcount)
+        return carrera
     
     def insertCarrera(self, carrera: Carrera):
         dbCursor = self.__db.cursor()
