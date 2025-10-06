@@ -12,7 +12,6 @@ class CarrerasDAO:
         sql = "SELECT * FROM carreras"
         dbCursor.execute(sql)
         tuplaCarreras = dbCursor.fetchall()
-        tuplaCarreras = self.__API.selectAllCarreras()
 
         for tupla in tuplaCarreras:
             self.__carrera.setId(tupla[0])
