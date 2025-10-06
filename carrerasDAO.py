@@ -1,25 +1,46 @@
 from carreras import Carrera
+from bddconnection import DBConnection
 
-class API:
-    def __init__(self, connector):
-        self.__db = connector
+class CarrerasDAO:
+    def __init__(self, user, password):
+        self.__dbconnector = DBConnection(user, password)
+        self.__db = self.__dbconnector.connectToDB()
+        self.__carrera = Carrera()
 
     def selectAllCarreras(self):
         dbCursor = self.__db.cursor()
         sql = "SELECT * FROM carreras"
         dbCursor.execute(sql)
-        returnObj = dbCursor.fetchall()
-        dbCursor.close()
-        return returnObj
+        tuplaCarreras = dbCursor.fetchall()
+        tuplaCarreras = self.__API.selectAllCarreras()
 
-    def selectCarreraByID(self, id):
-        dbCursor = self.__db.cursor()
-        sql = "SELECT * FROM carreras c WHERE c.idCarrera = %s"
-        values = (id,)
-        dbCursor.execute(sql, values)
-        returnObj = dbCursor.fetchall()
+        for tupla in tuplaCarreras:
+            self.__carrera.setId(tupla[0])
+            self.__carrera.setTitulo(tupla[1])
+            self.__carrera.setRama(tupla[3])
+            self.__carrera.setDuracion(tupla[2])
+            self.__carrera.setCampus(tupla[4])
+            carreraARR += [self.__carrera]
         dbCursor.close()
-        return returnObj
+        
+        return carreraARR
+
+    def selectCarreraByID(self, carrera: Carrera):
+        dbCursor = self.__db.cursor()
+
+        sql = "SELECT * FROM carreras c WHERE c.idCarrera = %s"
+        values = (carrera.getId(),)
+        dbCursor.execute(sql, values)
+
+        tupla = dbCursor.fetchall()
+        self.__carrera.setId(tupla[0])
+        self.__carrera.setTitulo(tupla[1])
+        self.__carrera.setRama(tupla[3])
+        self.__carrera.setDuracion(tupla[2])
+        self.__carrera.setCampus(tupla[4])
+        dbCursor.close()
+
+        return self.__carrera
     
     def modifySelectedCarrera(self, carrera: Carrera):
         dbCursor = self.__db.cursor()
@@ -40,7 +61,7 @@ class API:
         dbCursor.close()
         return self.checkRows(dbCursor.rowcount)
     
-    def deleteCarrera(self, carrera):
+    def deleteCarrera(self, carrera: Carrera):
         dbCursor = self.__db.cursor()
         sql = "DELETE FROM carreras WHERE idCarrera = %s"
         values = (carrera.getId(),)

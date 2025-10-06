@@ -1,5 +1,5 @@
 from carreras import Carrera
-from gestioncarreras import GestionCarrera
+from carrerasDAO import CarrerasDAO
 
 def login():
     print("Bienvenido al gestor de carreras universitarias")
@@ -9,7 +9,7 @@ def login():
 
 def menu(user, password):
     carrera = Carrera()
-    gestor = GestionCarrera(user, password)
+    DAO = CarrerasDAO(user, password)
 
     while True:
         print("""\nMenú Principal
@@ -28,10 +28,10 @@ def menu(user, password):
             
             carrera = Carrera(titulo, duracion, rama, campus)
             
-            gestor.añadeCarrera(carrera)
+            DAO.insertCarrera(carrera)
 
         elif opcion == 2:
-            carreras = gestor.seleccionaTodas()
+            carreras = DAO.selectAllCarreras()
             indiceC = 1
             if carreras:
                 for grados in carreras:
@@ -47,7 +47,7 @@ def menu(user, password):
                 print("No hay carreras en la base de datos")
 
         elif opcion == 3:
-            carreras = gestor.seleccionaTodas()
+            carreras = DAO.selectAllCarreras()
             indiceC = 1
             if carreras:
                 for grados in carreras:
@@ -61,14 +61,14 @@ def menu(user, password):
                     selectedCarrera.setDuracion(int(input("¿Cuanto durará? ")))
                     selectedCarrera.setRama(input("¿A que rama pertenecerá? "))
                     selectedCarrera.setCampus(input("¿Dónde se impartirá? "))
-                    gestor.modificaCarrera(selectedCarrera)
+                    DAO.modifySelectedCarrera(selectedCarrera)
                 else:
                     print("Está vacío")
             else:
                 print("No hay carreras en la base de datos")
 
         elif opcion == 4:
-            carreras = gestor.seleccionaTodas()
+            carreras = DAO.selectAllCarreras()
             indiceC = 1
             if carreras:
                 for grados in carreras:
@@ -78,7 +78,7 @@ def menu(user, password):
                 selectedCarrera = carreras[int(input("Introduce el índice de la carrera a eliminar: ")) - 1]
                 if selectedCarrera:
                     print (selectedCarrera)
-                    gestor.eliminaCarrera(selectedCarrera)
+                    DAO.deleteCarrera(selectedCarrera)
                 else:
                     print("Está vacío")
             else:
