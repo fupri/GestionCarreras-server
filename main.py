@@ -1,13 +1,16 @@
-from flask import Flask
 import requests as req
+
+API_URL = "http://127.0.0.1:5000" 
 
 def login():
     print("Bienvenido al gestor de carreras universitarias")
-    user = input("Usuario: ")
+    username = input("Usuario: ")
     password = input("Contraseña: ")
-    menu(user, password)
+    req.post(f"{API_URL}/login/", json={"username": username, "password": password})
 
-def menu(user, password):
+    menu()
+
+def menu():
     carrera = {
         "ID": 0,
         "Titulo": "",
@@ -26,64 +29,69 @@ def menu(user, password):
         opcion = int(input("Elige una opcion del menu: "))
 
         if opcion == 1: 
-            carrera["Titulo"] = input("Titulo/Grado: ")
-            carrera["Duracion"] = int(input("¿Cuantos años? "))
-            carrera["Rama"] = input("Rama de la carrera: ")
-            carrera["Campus"] = input("¿En que campus se imparte? ")
-                        
-            resp = req.post("http://localhost:5000/addCarrera/", carrera)
+            carrera = {}
+            carrera["titulo"] = input("Titulo/Grado: ")
+            carrera["duracion"] = int(input("¿Cuantos años? "))
+            carrera["rama"] = input("Rama de la carrera: ")
+            carrera["campus"] = input("¿En que campus se imparte? ")
+                            
+            resp = req.post(f"{API_URL}/addCarrera/", json=carrera) 
             print(resp.text)
 
         elif opcion == 2:
-            resp = req.post("http://localhost:5000/getAllCarreras/")
+            resp = req.get(f"{API_URL}/selectAll/")
             carreras = resp.json() if resp.ok else []
             indiceC = 1
             if carreras:
                 for grados in carreras:
-                    print(f"{indiceC}. {grados['Titulo']}")
+                    print(f"{indiceC}. {grados['titulo']}")
                     indiceC += 1
 
                 selectedCarrera = carreras[int(input("Introduce el índice de la carrera a visualizar: ")) - 1]
                 if selectedCarrera:
-                    print (selectedCarrera["Titulo"], selectedCarrera["Duracion"], selectedCarrera["Rama"], selectedCarrera["Campus"])
+                    print (selectedCarrera["titulo"], selectedCarrera["duracion"], selectedCarrera["rama"], selectedCarrera["campus"])
                 else:
                     print("Está vacío")
             else:
                 print("No hay carreras en la base de datos")
 
         elif opcion == 3:
-            resp = req.post("http://localhost:5000/getAllCarreras/")
+            resp = req.get(f"{API_URL}/selectAll/")
             carreras = resp.json() if resp.ok else []
             indiceC = 1
             if carreras:
                 for grados in carreras:
-                    print(f"{indiceC}. {grados['Titulo']}")
+                    print(f"{indiceC}. {grados['titulo']}")
                     indiceC += 1
 
                 selectedCarrera = carreras[int(input("Introduce el índice de la carrera a modificar: ")) - 1]
                 if selectedCarrera:
-                    selectedCarrera["Titulo"] = input("¿Cómo se llamará a partir de ahora? ")
-                    selectedCarrera["Duracion"] = int(input("¿Cuanto durará? "))
-                    selectedCarrera["Rama"] = input("¿A que rama pertenecerá? ")
-                    selectedCarrera["Campus"] = input("¿Dónde se impartirá? ")
-                    req.post("http://localhost:5000/updateCarrera/", selectedCarrera)
+                    newCarrera = {
+                        "id": selectedCarrera["id"],
+                        "titulo": input("Nuevo titulo: "),
+                        "duracion": int(input("Nueva duracion: ")),
+                        "rama": input("Nueva rama: "),
+                        "campus": input("Nuevo campus: ")
+                    }
+
+                    resp = req.put(f"{API_URL}/modifyCarrera/", json=newCarrera)
                 else:
                     print("Está vacío")
             else:
                 print("No hay carreras en la base de datos")
 
         elif opcion == 4:
-            resp = req.post("http://localhost:5000/getAllCarreras/")
+            resp = req.get(f"{API_URL}/selectAll/")
             carreras = resp.json() if resp.ok else []
             indiceC = 1
             if carreras:
                 for grados in carreras:
-                    print(f"{indiceC}. {grados['Titulo']}")
+                    print(f"{indiceC}. {grados['titulo']}")
                     indiceC += 1
 
                 selectedCarrera = carreras[int(input("Introduce el índice de la carrera a eliminar: ")) - 1]
                 if selectedCarrera:
-                    req.post("http://localhost:5000/deleteCarrera/", selectedCarrera)
+                    req.delete(f"{API_URL}/deleteCarrera/", params={"id": selectedCarrera["id"]})
                 else:
                     print("Está vacío")
             else:

@@ -7,11 +7,12 @@ app = Flask(__name__)
 DAO = CarrerasDAO()
 
 
-@app.route("/login/", methods=["GET"])
+@app.route("/login/", methods=["POST"])
 def login():
+    data = req.get_json() or {}
     user = User()
-    user.setUsername(req.args.get('username'))
-    user.setPassword(req.args.get('password'))
+    user.setUsername(data.get("username"))
+    user.setPassword(data.get("password"))
     DAO.login(user)
     return jsonify({"about": f"logged in correctly, user: {user.getUsername()}"})
 
@@ -123,3 +124,5 @@ def deleteCarrera():
 @app.teardown_appcontext
 def close_db_connection(exception):
     DAO.closeConnection()
+
+app.run()
