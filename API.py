@@ -120,3 +120,6 @@ def deleteCarrera():
         return jsonify({"error": "delete failed"}), 500
     return jsonify({"about": f"deleted carrera: {existing.getTitulo()}"})
     
+@app.teardown_appcontext
+def close_db_connection(exception):
+    DAO.closeConnection()

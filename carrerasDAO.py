@@ -11,19 +11,21 @@ class CarrerasDAO:
         self.__db = dbconnector.connectToDB()
 
     def selectAllCarreras(self): 
+        carreraARR = []
         with self.__db.cursor() as dbCursor:
             sql = "SELECT * FROM carreras"
             dbCursor.execute(sql)
-            tuplaCarreras = dbCursor.fetchall()
+            tuplaCarreras: list[tuple] = dbCursor.fetchall()
 
             for tupla in tuplaCarreras:
-                self.__carrera.setId(tupla[0])
-                self.__carrera.setTitulo(tupla[1])
-                self.__carrera.setRama(tupla[3])
-                self.__carrera.setDuracion(tupla[2])
-                self.__carrera.setCampus(tupla[4])
-                carreraARR += [self.__carrera]
-            
+                carrera = Carrera()
+                carrera.setId(tupla[0])
+                carrera.setTitulo(tupla[1])
+                carrera.setRama(tupla[3])
+                carrera.setDuracion(tupla[2])
+                carrera.setCampus(tupla[4])
+                carreraARR += [carrera]
+
             return carreraARR
 
     def selectCarreraByID(self, carrera: Carrera):
@@ -64,6 +66,11 @@ class CarrerasDAO:
             dbCursor.execute(sql, values)
             self.__db.commit()
             return self.checkRows(dbCursor.rowcount)
+        
+    def closeConnection(self):
+        if self.__db.is_connected():
+            self.__db.close()
+            print("Conexión a la base de datos cerrada.")
 
     def checkRows(self, count):
         if count > 0:
