@@ -8,27 +8,31 @@ DAO = CarrerasDAO()
 carrera = Carrera()
 user = User()
 
-@app.roue("/login/", ["POST"])
+@app.roue("/login/", ["GET"])
 def login():
     user.setUsername(req.args.get('username'))
     user.setPassword(req.args.get('password'))
     DAO.login(user)
     return jsonify({"about": f"logged in correctly, user:" + {user.getUsername()}})
 
-@app.route("/selectAll")
+@app.route("/selectAll/", ["POST"])
 def getAllCarreras():
     carreras = DAO.selectAllCarreras()
-    carreras_dict = [carrera.to_dict() for carrera in carreras]
-    return jsonify(carreras_dict)
+    carrerasList = [carrera.to_dict() for carrera in carreras]
+    return jsonify(carrerasList)
 
-@app.route("/selectCarreraById/")
+@app.route("/selectCarreraById/", ["GET"])
 def getCarreraById():
     id = req.args.get("id")
     carrera.setId(id)
     carrera = DAO.selectCarreraByID(carrera)
     return jsonify(carrera.to_dict)
 
-@app.route("/modifyCarrera/")
+@app.route("/addCarrera/", ["GET"])
+def insertCarrera():
+    pass
+
+@app.route("/modifyCarrera/", ["GET"])
 def modifyCarrera():
     carrera.setId(req.args.get("id"))
     carrera.setTitulo(req.args.get("titulo"))
@@ -38,7 +42,7 @@ def modifyCarrera():
     DAO.modifyCarrera(carrera)
     return jsonify({"about": f"modified carrera: {carrera.getTitulo()}"})
 
-@app.route("/deleteCarrera")
+@app.route("/deleteCarrera/", ["GET"])
 def deleteCarrera():
     carrera.setId(req.args.get("id"))
     DAO.deleteCarrera(carrera)
