@@ -6,6 +6,15 @@ class Carrera:
         self.__rama = rama
         self.__campus = campus
 
+    def to_dict(self):
+        return {
+            "id": self.__id,
+            "titulo": self.__titulo,
+            "rama": self.__rama,
+            "duracion": self.__duracion,
+            "campus": self.__campus
+        }
+
     def setTitulo(self, titulo):
         self.__titulo = titulo
 

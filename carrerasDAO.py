@@ -1,11 +1,14 @@
 from carreras import Carrera
+from user import User
 from bddconnection import DBConnection
 
 class CarrerasDAO:
-    def __init__(self, user, password):
-        self.__dbconnector = DBConnection(user, password)
-        self.__db = self.__dbconnector.connectToDB()
+    def __init__(self):
         self.__carrera = Carrera()
+
+    def login(self, user: User):
+        dbconnector = DBConnection(user.getUsername(), user.getPassword())
+        self.__db = dbconnector.connectToDB()
 
     def selectAllCarreras(self): 
         with self.__db.cursor() as dbCursor:
