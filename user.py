@@ -1,8 +1,7 @@
 class User:
-    def __init__(self, username, password):
-        self.__username = username
-        self.__password = password
-
+    def __init__(self):
+        pass
+    
     def getUsername(self):
         return self.__username
     
@@ -10,7 +9,7 @@ class User:
         self.__username = name
 
     def getPassword(self):
-        return self.password
+        return self.__password
     
     def setPassword(self, password):
-        self.password = password
+        self.__password = password
