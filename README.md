@@ -27,3 +27,9 @@ and
 5. Salir
 
 Each option communicates with the Flask API.
+
+
+
+**IMPORTANT!**
+
+Run the server before you run the client
