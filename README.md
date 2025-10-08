@@ -1,3 +1,11 @@
+**Requirements**
+- Python 3.10+
+- MySQL Server running locally (default: localhost, port: 5000
+- The following libraries
+```
+pip install flask mysql-connector-python requests
+```
+
 **How to run the app**
 
 _1. Start the Flask Server_
